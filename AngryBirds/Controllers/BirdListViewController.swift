@@ -25,15 +25,24 @@ class BirdListViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        guard let confirmedService = self.birdService else { return }
+        guard let confirmedService = self.birdService else {
+            return }
         
        confirmedService.getBirds(completion: { birds, error in
             guard let birds = birds, error == nil else {
+                let alertController = UIAlertController(title: "Alert", message: "We failed to get data from your url", preferredStyle: .alert)
+                self.present(alertController, animated: true, completion: nil)
                 return
             }
             self.flock = birds
             self.tableView.reloadData()
        })
+        
+        //throw error if there are no birds in the flock
+        //if self.flock.count == 0 {
+        //    let alertController = UIAlertController(title: "Alert", message: "There are no birds in your flock", preferredStyle: .alert)
+        //    self.present(alertController, animated: true, completion: nil)
+        //}
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

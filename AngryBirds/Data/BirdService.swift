@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum BirdCallingError: Error {
     case problemGeneratingURL
@@ -15,17 +16,17 @@ enum BirdCallingError: Error {
 }
 
 class BirdService {
-    private let urlString = "http://www.mocky.io/v2/5e9d1faf30000022cb0a80e1"
+    private let urlString = "http://www.mock"
     
     func getBirds(completion: @escaping ([Bird]?, Error?) -> ()) {
-            guard let url = URL(string: self.urlString) else {
-                DispatchQueue.main.async { completion(nil, BirdCallingError.problemGeneratingURL) }
+            guard let url = URL(string: self.urlString) else {DispatchQueue.main.async { completion(nil, BirdCallingError.problemGeneratingURL)}
                 return
         }
                 
             let request = URLRequest(url: url)
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
                 guard let data = data, error == nil else {
+                    print(error!)
                     DispatchQueue.main.async { completion(nil, BirdCallingError.problemGettingDataFromAPI) }
                     return
                 }
